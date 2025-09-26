@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import DeployChainIcon from '@/components/DeployChainIcon';
 import DeploymentCard from '@/components/DeploymentCard';
+import { DeploymentPipelineCanvas } from '@/components/DeploymentPipelineCanvas';
 import deploymentPipeline from '@/assets/deployment-pipeline.jpg';
 
 interface Deployment {
@@ -261,18 +262,7 @@ const Landing = () => {
               and provides you with a complete dashboard to track your dApp's performance.
             </p>
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="flex justify-center"
-          >
-            <img
-              src={deploymentPipeline}
-              alt="DeployChain deployment pipeline flowchart"
-              className="w-full max-w-4xl rounded-xl shadow-web3"
-            />
-          </motion.div>
+          <DeploymentPipelineCanvas />
         </div>
       </section>
 
