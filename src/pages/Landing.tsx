@@ -135,24 +135,24 @@ const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+  <div className="min-h-screen bg-background">
       {/* Navigation */}
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+        className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-lg border-b border-transparent"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-primary">DeployChain</span>
+              <span className="text-2xl font-bold text-white">DeployChain</span>
             </div>
             <div className="hidden md:flex space-x-8">
               {['hero', 'problem', 'solution', 'features', 'demo', 'deployments', 'try-it'].map((section) => (
                 <button
                   key={section}
                   onClick={() => smoothScrollTo(section)}
-                  className="text-muted-foreground hover:text-primary transition-colors capitalize"
+                  className="text-white hover:text-primary transition-colors capitalize"
                 >
                   {section.replace('-', ' ')}
                 </button>
@@ -163,8 +163,18 @@ const Landing = () => {
       </motion.nav>
 
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center justify-center bg-hero-gradient text-white pt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section id="hero" className="relative min-h-screen flex items-center justify-center bg-hero-gradient text-white pt-16 overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+        >
+          <source src="/Your%20paragraph%20text.mp4" type="video/mp4" />
+        </video>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
