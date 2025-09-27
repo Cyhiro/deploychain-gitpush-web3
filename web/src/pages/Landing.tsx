@@ -148,7 +148,7 @@ const Landing = () => {
               <span className="text-2xl font-bold text-white">DeployChain</span>
             </div>
             <div className="hidden md:flex space-x-8">
-              {['hero', 'problem', 'solution', 'features', 'demo', 'deployments', 'try-it'].map((section) => (
+              {['About', 'Features', 'Try Now'].map((section) => (
                 <button
                   key={section}
                   onClick={() => smoothScrollTo(section)}
