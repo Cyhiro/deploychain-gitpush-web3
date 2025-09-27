@@ -201,14 +201,6 @@ const Landing = () => {
               >
                 Try It Now
               </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => smoothScrollTo('demo')}
-                className="btn-outline w-full sm:w-auto"
-              >
-                Watch Demo
-              </motion.button>
             </div>
           </motion.div>
         </div>
@@ -336,151 +328,12 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Demo Section */}
-      <section id="demo" className="py-20 bg-muted">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              See It in Action
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-              Watch how DeployChain transforms your Web3 development workflow in just 30 seconds.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="flex justify-center"
-          >
-            <div className="w-full max-w-4xl aspect-video">
-              <iframe
-                className="w-full h-full rounded-xl shadow-web3"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="DeployChain Demo Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Deployments Section */}
-      <section id="deployments" className="py-20 bg-background">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Recent Deployments
-            </h2>
-          </motion.div>
-          {loading ? (
-            <div className="text-center">
-              <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-primary transition ease-in-out duration-150">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Loading deployments...
-              </div>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 gap-8">
-              {deployments.map((deployment, index) => (
-                <div className="w-full flex flex-col">
-                  <DeploymentCard
-                    key={deployment.id}
-                    deployment={deployment}
-                    index={index}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Try It Section */}
-      <section id="try-it" className="py-20 bg-primary text-primary-foreground">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Try DeployChain Now</h2>
-            <p className="text-xl max-w-3xl mx-auto mb-12 text-blue-100">
-              Deploy your dApp in minutes. Just provide your GitHub repository and we'll handle the rest.
-            </p>
-          </motion.div>
-          <motion.form
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            onSubmit={handleDeploy}
-            className="max-w-2xl mx-auto"
-          >
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <input
-                type="url"
-                placeholder="GitHub Repo URL (e.g., https://github.com/user/repo)"
-                value={repoUrl}
-                onChange={(e) => setRepoUrl(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Branch (e.g., main)"
-                value={branch}
-                onChange={(e) => setBranch(e.target.value)}
-                className="sm:w-40 px-4 py-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-            </div>
-            <div className="text-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                type="submit"
-                disabled={deploying}
-                className="bg-white text-primary hover:bg-gray-100 font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {deploying ? 'Deploying...' : 'Deploy Now'}
-              </motion.button>
-            </div>
-          </motion.form>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center mt-12"
-          >
-            <p className="text-blue-100">
-              Contact: <a href="mailto:arivtechcenter@gmail.com" className="underline hover:text-white transition-colors">arivtechcenter@gmail.com</a>
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="py-12 bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-gray-300 mb-4">
-              © 2025 DeployChain by ARIV TECH CENTER. Built for Nairobi Mini Hack.
-            </p>
+              © 2025 DeployChain</p>
             <div className="flex justify-center space-x-6">
               <a
                 href="https://www.multibaas.com/"

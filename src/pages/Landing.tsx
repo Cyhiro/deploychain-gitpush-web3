@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
-import DeployChainIcon from '@/components/DeployChainIcon';
+
 import DeploymentCard from '@/components/DeploymentCard';
 import deploymentPipeline from '@/assets/deployment-pipeline.jpg';
 
@@ -150,15 +150,24 @@ const Landing = () => {
             </div>
             {/* Desktop Nav */}
             <div className="hidden md:flex space-x-8">
-              {['hero', 'problem', 'solution', 'features', 'demo', 'deployments', 'try-it'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => smoothScrollTo(section)}
-                  className="text-white hover:text-primary transition-colors capitalize"
-                >
-                  {section.replace('-', ' ')}
-                </button>
-              ))}
+              <button
+                onClick={() => smoothScrollTo('problem')}
+                className="text-white hover:text-primary transition-colors capitalize"
+              >
+                About
+              </button>
+              <button
+                onClick={() => smoothScrollTo('features')}
+                className="text-white hover:text-primary transition-colors capitalize"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => smoothScrollTo('try-it')}
+                className="ml-2 px-4 py-2 rounded bg-primary text-primary-foreground font-semibold hover:bg-primary/80 transition-colors"
+              >
+                Try It Now
+              </button>
             </div>
             {/* Hamburger for mobile */}
             <div className="md:hidden flex items-center">
@@ -183,15 +192,24 @@ const Landing = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              {['hero', 'problem', 'solution', 'features', 'demo', 'deployments', 'try-it'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => { setMenuOpen(false); smoothScrollTo(section); }}
-                  className="text-white text-lg py-2 px-2 text-left w-full hover:text-primary transition-colors capitalize"
-                >
-                  {section.replace('-', ' ')}
-                </button>
-              ))}
+              <button
+                onClick={() => { setMenuOpen(false); smoothScrollTo('problem'); }}
+                className="text-white text-lg py-2 px-2 text-left w-full hover:text-primary transition-colors capitalize"
+              >
+                About
+              </button>
+              <button
+                onClick={() => { setMenuOpen(false); smoothScrollTo('features'); }}
+                className="text-white text-lg py-2 px-2 text-left w-full hover:text-primary transition-colors capitalize"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => { setMenuOpen(false); smoothScrollTo('try-it'); }}
+                className="mt-4 px-4 py-2 rounded bg-primary text-primary-foreground font-semibold hover:bg-primary/80 transition-colors text-left w-full"
+              >
+                Try It Now
+              </button>
             </div>
           </div>
         )}
@@ -219,7 +237,7 @@ const Landing = () => {
             transition={{ duration: 0.8 }}
             className="w-full"
           >
-            <DeployChainIcon />
+
             <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">DeployChain</h1>
             <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 font-light">
               Vercel for Web3: Deploy dApps with One Git Push
