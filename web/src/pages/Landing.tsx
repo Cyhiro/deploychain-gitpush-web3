@@ -145,18 +145,35 @@ const Landing = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-white">DeployChain</span>
+              <button
+                className="text-2xl font-bold text-white bg-transparent border-none outline-none cursor-pointer"
+                style={{ background: 'none', padding: 0 }}
+                onClick={() => smoothScrollTo('hero')}
+                aria-label="Go to top / hero section"
+              >
+                DeployChain
+              </button>
             </div>
             <div className="hidden md:flex space-x-8">
-              {['About', 'Features', 'Try Now'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => smoothScrollTo(section)}
-                  className="text-white hover:text-primary transition-colors capitalize"
-                >
-                  {section.replace('-', ' ')}
-                </button>
-              ))}
+              <button
+                onClick={() => smoothScrollTo('problem')}
+                className="text-white hover:text-primary transition-colors capitalize"
+              >
+                About
+              </button>
+              <button
+                onClick={() => smoothScrollTo('features')}
+                className="text-white hover:text-primary transition-colors capitalize"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => smoothScrollTo('try-it')}
+                className="ml-2 px-4 py-2 rounded bg-primary text-primary-foreground font-semibold hover:bg-primary/80 transition-colors shadow"
+                style={{ minWidth: '120px' }}
+              >
+                Try It Now
+              </button>
             </div>
           </div>
         </div>
