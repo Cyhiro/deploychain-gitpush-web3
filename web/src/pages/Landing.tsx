@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import DeployChainIcon from '@/components/DeployChainIcon';
@@ -21,6 +22,7 @@ const Landing = () => {
   const [repoUrl, setRepoUrl] = useState('');
   const [branch, setBranch] = useState('main');
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Mock data for deployments
   const mockDeployments: Deployment[] = [
@@ -168,7 +170,7 @@ const Landing = () => {
                 Features
               </button>
               <button
-                onClick={() => smoothScrollTo('try-it')}
+                onClick={() => navigate('/dashboard')}
                 className="ml-2 px-4 py-2 rounded bg-primary text-primary-foreground font-semibold hover:bg-primary/80 transition-colors shadow"
                 style={{ minWidth: '120px' }}
               >
@@ -213,7 +215,7 @@ const Landing = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => smoothScrollTo('try-it')}
+                onClick={() => navigate('/dashboard')}
                 className="btn-hero w-full sm:w-auto"
               >
                 Try It Now
