@@ -1,17 +1,33 @@
 
-import { useState, useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react';
 
 const Dashboard: React.FC = () => {
+  const [activeSection, setActiveSection] = useState<'github' | 'health' | 'transaction'>('github');
+
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-900 text-white flex-shrink-0 flex flex-col p-6">
         <h2 className="text-2xl font-bold mb-8">Dashboard</h2>
         <nav className="flex flex-col gap-4 flex-1">
-          <a href="#github" className="hover:text-primary transition-colors">Github</a>
-          <a href="#health" className="hover:text-primary transition-colors">Health</a>
-          <a href="#transaction" className="hover:text-primary transition-colors">Transaction</a>
+          <button
+            className={`text-left hover:text-primary transition-colors ${activeSection === 'github' ? 'font-bold text-primary' : ''}`}
+            onClick={() => setActiveSection('github')}
+          >
+            Github
+          </button>
+          <button
+            className={`text-left hover:text-primary transition-colors ${activeSection === 'health' ? 'font-bold text-primary' : ''}`}
+            onClick={() => setActiveSection('health')}
+          >
+            Health
+          </button>
+          <button
+            className={`text-left hover:text-primary transition-colors ${activeSection === 'transaction' ? 'font-bold text-primary' : ''}`}
+            onClick={() => setActiveSection('transaction')}
+          >
+            Transaction
+          </button>
         </nav>
         <button
           className="mt-8 py-2 px-4 bg-red-600 hover:bg-red-700 rounded text-white font-semibold transition-colors"
@@ -25,10 +41,26 @@ const Dashboard: React.FC = () => {
       </aside>
       {/* Main Area */}
       <main className="flex-1 bg-background p-8 overflow-y-auto">
-        <h1 className="text-3xl font-bold mb-6">Deployments</h1>
-        <div className="overflow-x-auto">
-          <DeploymentsTable />
-        </div>
+        {activeSection === 'github' && (
+          <>
+            <h1 className="text-3xl font-bold mb-6">Deployments</h1>
+            <div className="overflow-x-auto">
+              <DeploymentsTable />
+            </div>
+          </>
+        )}
+        {activeSection === 'health' && (
+          <>
+            <h1 className="text-3xl font-bold mb-6">Health</h1>
+            <div className="text-muted-foreground">Monitor the health of your deployments and services here.</div>
+          </>
+        )}
+        {activeSection === 'transaction' && (
+          <>
+            <h1 className="text-3xl font-bold mb-6">Transaction</h1>
+            <div className="text-muted-foreground">View and manage your deployment transactions here.</div>
+          </>
+        )}
       </main>
     </div>
   );
