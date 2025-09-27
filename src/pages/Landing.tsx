@@ -170,30 +170,34 @@ const Landing = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+          className="absolute inset-0 w-full h-full object-cover z-0 opacity-60 bg-black"
+          style={{ backgroundColor: '#111', backgroundImage: 'none' }}
         >
           <source src="/Your%20paragraph%20text.mp4" type="video/mp4" />
         </video>
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        {/* Overlay to prevent white blink */}
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none" style={{ background: 'rgba(10,10,20,0.7)' }} />
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="w-full"
           >
             <DeployChainIcon />
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">DeployChain</h1>
-            <p className="text-2xl md:text-3xl mb-4 font-light">
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">DeployChain</h1>
+            <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 font-light">
               Vercel for Web3: Deploy dApps with One Git Push
             </p>
-            <p className="text-xl md:text-2xl mb-12 text-blue-100 max-w-3xl mx-auto">
+            <p className="text-base xs:text-lg sm:text-xl md:text-2xl mb-6 sm:mb-12 text-blue-100 max-w-3xl mx-auto">
               Smart contracts + frontend deployed seamlessly to Sepolia testnet.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center w-full items-center">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => smoothScrollTo('try-it')}
-                className="btn-hero"
+                className="btn-hero w-full sm:w-auto"
               >
                 Try It Now
               </motion.button>
@@ -201,7 +205,7 @@ const Landing = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => smoothScrollTo('demo')}
-                className="btn-outline"
+                className="btn-outline w-full sm:w-auto"
               >
                 Watch Demo
               </motion.button>
@@ -244,10 +248,10 @@ const Landing = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2 }}
-                className="card-problem"
+                className="card-problem p-6 rounded-xl shadow-md bg-white/80 dark:bg-gray-900/80 text-center flex flex-col items-center"
               >
-                <h3 className="text-xl font-semibold text-foreground mb-4">{problem.title}</h3>
-                <p className="text-muted-foreground">{problem.description}</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-4">{problem.title}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground">{problem.description}</p>
               </motion.div>
             ))}
           </div>
@@ -322,10 +326,10 @@ const Landing = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="card-feature"
+                className="card-feature p-6 rounded-xl shadow-md bg-white/80 dark:bg-gray-900/80 text-center flex flex-col items-center"
               >
-                <h3 className="text-xl font-semibold text-primary mb-4">{feature.title}</h3>
-                <p className="text-accent-foreground">{feature.description}</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-primary mb-2 sm:mb-4">{feature.title}</h3>
+                <p className="text-sm sm:text-base text-accent-foreground">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -394,11 +398,13 @@ const Landing = () => {
           ) : (
             <div className="grid md:grid-cols-2 gap-8">
               {deployments.map((deployment, index) => (
-                <DeploymentCard
-                  key={deployment.id}
-                  deployment={deployment}
-                  index={index}
-                />
+                <div className="w-full flex flex-col">
+                  <DeploymentCard
+                    key={deployment.id}
+                    deployment={deployment}
+                    index={index}
+                  />
+                </div>
               ))}
             </div>
           )}
