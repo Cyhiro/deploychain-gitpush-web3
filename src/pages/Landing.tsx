@@ -406,45 +406,25 @@ const Landing = () => {
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Try DeployChain Now</h2>
             <p className="text-xl max-w-3xl mx-auto mb-12 text-blue-100">
-              Deploy your dApp in minutes. Just provide your GitHub repository and we'll handle the rest.
+              Deploy your dApp in minutes. Access the dashboard to manage your deployments.
             </p>
           </motion.div>
-          <motion.form
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            onSubmit={handleDeploy}
-            className="max-w-2xl mx-auto"
+            className="text-center"
           >
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <input
-                type="url"
-                placeholder="GitHub Repo URL (e.g., https://github.com/user/repo)"
-                value={repoUrl}
-                onChange={(e) => setRepoUrl(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Branch (e.g., main)"
-                value={branch}
-                onChange={(e) => setBranch(e.target.value)}
-                className="sm:w-40 px-4 py-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-            </div>
-            <div className="text-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                type="submit"
-                disabled={deploying}
-                className="bg-white text-primary hover:bg-gray-100 font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {deploying ? 'Deploying...' : 'Deploy Now'}
-              </motion.button>
-            </div>
-          </motion.form>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/dashboard')}
+              className="bg-white text-primary hover:bg-gray-100 font-semibold px-12 py-5 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-hover text-lg flex items-center gap-3 mx-auto"
+            >
+              <Activity className="h-6 w-6" />
+              Go to Dashboard
+            </motion.button>
+          </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
