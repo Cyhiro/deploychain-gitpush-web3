@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
+import { Activity } from 'lucide-react';
 import DeployChainIcon from '@/components/DeployChainIcon';
 import DeploymentCard from '@/components/DeploymentCard';
 import { DeploymentPipelineCanvas } from '@/components/DeploymentPipelineCanvas';
@@ -22,6 +24,7 @@ const Landing = () => {
   const [repoUrl, setRepoUrl] = useState('');
   const [branch, setBranch] = useState('main');
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Mock data for deployments
   const mockDeployments: Deployment[] = [
@@ -148,7 +151,7 @@ const Landing = () => {
             <div className="flex items-center">
               <span className="text-2xl font-bold text-primary">DeployChain</span>
             </div>
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               {['hero', 'problem', 'solution', 'features', 'demo', 'deployments', 'try-it'].map((section) => (
                 <button
                   key={section}
@@ -158,6 +161,13 @@ const Landing = () => {
                   {section.replace('-', ' ')}
                 </button>
               ))}
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="btn-hero py-2 px-4 text-sm flex items-center gap-2"
+              >
+                <Activity className="h-4 w-4" />
+                Dashboard
+              </button>
             </div>
           </div>
         </div>
