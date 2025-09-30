@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Search, Github, ExternalLink, CheckCircle2, Clock, XCircle, Activity } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Search, Github, ExternalLink, CheckCircle2, Clock, XCircle, Activity, LogOut } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +25,11 @@ const Dashboard = () => {
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchDeployments = async () => {
@@ -125,10 +131,19 @@ const Dashboard = () => {
               </h1>
               <p className="text-muted-foreground mt-1">Sepolia Testnet Deployment Dashboard</p>
             </div>
-            <Badge variant="outline" className="text-primary border-primary">
-              <div className="w-2 h-2 rounded-full bg-primary mr-2 animate-pulse" />
-              Network: Sepolia
-            </Badge>
+            <div className="flex items-center gap-4">
+              <Badge variant="outline" className="text-primary border-primary">
+                <div className="w-2 h-2 rounded-full bg-primary mr-2 animate-pulse" />
+                Network: Sepolia
+              </Badge>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 bg-destructive/10 hover:bg-destructive/20 text-destructive rounded-lg transition-all duration-300 border border-destructive/20"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
+            </div>
           </div>
 
           {/* Search */}
