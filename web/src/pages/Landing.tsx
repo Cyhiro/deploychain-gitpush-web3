@@ -4,7 +4,9 @@ import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import DeployChainIcon from '@/components/DeployChainIcon';
 import DeploymentCard from '@/components/DeploymentCard';
-import deploymentPipeline from '@/assets/deployment-pipeline.jpg';
+import block from '@/assets/block.png';
+import Deploy from '@/assets/Deploy.svg';
+
 
 interface Deployment {
   id: number;
@@ -147,15 +149,13 @@ const Landing = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <button
-                className="text-2xl font-bold text-white bg-transparent border-none outline-none cursor-pointer"
-                style={{ background: 'none', padding: 0 }}
-                onClick={() => smoothScrollTo('hero')}
-                aria-label="Go to top / hero section"
-              >
-                DeployChain
-              </button>
-            </div>
+             <div className="flex-shrink-0">
+   <div className="flex-shrink-0 flex items-center gap-2">
+  <DeployChainIcon className="w-8 h-8 md:w-10 md:h-10" />
+  <span className="text-white text-lg md:text-xl font-bold tracking-wide">DeployChain</span>
+</div>
+  </div> 
+</div>
             <div className="hidden md:flex space-x-8">
               <button
                 onClick={() => smoothScrollTo('problem')}
@@ -203,9 +203,11 @@ const Landing = () => {
             transition={{ duration: 0.8 }}
             className="w-full"
           >
-            <DeployChainIcon />
-            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">DeployChain</h1>
-            <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 font-light">
+           
+            <h1 className="flex items-center justify-center gap-3 text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">
+  <img src={Deploy} alt="DeployChain Logo" className="h-34 md:h-26 w-auto inline-block" /> 
+</h1>
+   <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-4 font-light">
               Vercel for Web3: Deploy dApps with One Git Push
             </p>
             <p className="text-base xs:text-lg sm:text-xl md:text-2xl mb-6 sm:mb-12 text-blue-100 max-w-3xl mx-auto">
@@ -293,7 +295,7 @@ const Landing = () => {
             className="flex justify-center"
           >
             <img
-              src={deploymentPipeline}
+              src={block}
               alt="DeployChain deployment pipeline flowchart"
               className="w-full max-w-4xl rounded-xl shadow-web3"
             />
