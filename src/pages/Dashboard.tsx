@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Github, ExternalLink, CheckCircle2, Clock, XCircle, Activity, LogOut } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,226 +21,177 @@ interface Deployment {
   gas_used: string;
 }
 
-const Dashboard = () => {
-  const [deployments, setDeployments] = useState<Deployment[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
+const Dashboard: React.FC = () => {
+  const [activeSection, setActiveSection] = useState<'github' | 'health' | 'transaction'>('github');
   const navigate = useNavigate();
 
   const handleLogout = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    const fetchDeployments = async () => {
-      try {
-        const response = await fetch("/api/deployments");
-        const data = await response.json();
-        setDeployments(data);
-      } catch (error) {
-        // Mock data for demo
-        setDeployments([
-          {
-            id: 1,
-            project_name: "DeFi Dashboard",
-            status: "deployed",
-            url: "https://app-1.deploychain.locci.cloud",
-            contract_addresses: {
-              "Token": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
-              "Staking": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"
-            },
-            deployment_type: "dapp",
-            timestamp: new Date(Date.now() - 3600000).toISOString(),
-            github_repo: "user/defi-dashboard",
-            github_branch: "main",
-            tx_hash: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
-            gas_used: "2,456,789"
-          },
-          {
-            id: 2,
-            project_name: "NFT Marketplace",
-            status: "deployed",
-            url: "https://app-2.deploychain.locci.cloud",
-            contract_addresses: {
-              "NFTCollection": "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8"
-            },
-            deployment_type: "dapp",
-            timestamp: new Date(Date.now() - 7200000).toISOString(),
-            github_repo: "user/nft-marketplace",
-            github_branch: "main",
-            tx_hash: "0x2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c",
-            gas_used: "3,123,456"
-          },
-          {
-            id: 3,
-            project_name: "DAO Governance",
-            status: "deploying",
-            url: "",
-            contract_addresses: {},
-            deployment_type: "dapp",
-            timestamp: new Date().toISOString(),
-            github_repo: "user/dao-platform",
-            github_branch: "develop",
-            tx_hash: "",
-            gas_used: ""
-          },
-          {
-            id: 4,
-            project_name: "Token Swap",
-            status: "failed",
-            url: "",
-            contract_addresses: {},
-            deployment_type: "dapp",
-            timestamp: new Date(Date.now() - 1800000).toISOString(),
-            github_repo: "user/token-swap",
-            github_branch: "main",
-            tx_hash: "",
-            gas_used: ""
-          }
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDeployments();
-  }, []);
-
-  const filteredDeployments = deployments.filter(dep =>
-    dep.project_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    dep.github_repo.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const stats = {
-    total: deployments.length,
-    deployed: deployments.filter(d => d.status === "deployed").length,
-    deploying: deployments.filter(d => d.status === "deploying").length,
-    failed: deployments.filter(d => d.status === "failed").length
-  };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
-                <Activity className="text-primary" />
-                DeployChain Explorer
-              </h1>
-              <p className="text-muted-foreground mt-1">Sepolia Testnet Deployment Dashboard</p>
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <aside className="w-64 bg-gray-900 text-white flex-shrink-0 flex flex-col p-6">
+        <h2 className="text-2xl font-bold mb-8">Dashboard</h2>
+        <nav className="flex flex-col gap-4 flex-1">
+          <button
+            className={`text-left hover:text-primary transition-colors ${activeSection === 'github' ? 'font-bold text-primary' : ''}`}
+            onClick={() => setActiveSection('github')}
+          >
+            Github
+          </button>
+          <button
+            className={`text-left hover:text-primary transition-colors ${activeSection === 'health' ? 'font-bold text-primary' : ''}`}
+            onClick={() => setActiveSection('health')}
+          >
+            Health
+          </button>
+          <button
+            className={`text-left hover:text-primary transition-colors ${activeSection === 'transaction' ? 'font-bold text-primary' : ''}`}
+            onClick={() => setActiveSection('transaction')}
+          >
+            Transaction
+          </button>
+        </nav>
+        <button
+          className="mt-8 py-2 px-4 bg-red-600 hover:bg-red-700 rounded text-white font-semibold transition-colors"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      </aside>
+      
+      {/* Main Area */}
+      <main className="flex-1 bg-background p-8 overflow-y-auto">
+        {activeSection === 'github' && (
+          <>
+            <h1 className="text-3xl font-bold mb-6">Deployments</h1>
+            <div className="overflow-x-auto">
+              <DeploymentsTable />
             </div>
-            <div className="flex items-center gap-4">
-              <Badge variant="outline" className="text-primary border-primary">
-                <div className="w-2 h-2 rounded-full bg-primary mr-2 animate-pulse" />
-                Network: Sepolia
-              </Badge>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-destructive/10 hover:bg-destructive/20 text-destructive rounded-lg transition-all duration-300 border border-destructive/20"
-              >
-                <LogOut className="h-4 w-4" />
-                Logout
-              </button>
-            </div>
-          </div>
-
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              type="text"
-              placeholder="Search by project name or GitHub repo..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-background"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 py-8">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <StatsCard
-            title="Total Deployments"
-            value={stats.total}
-            icon={Activity}
-            color="primary"
-          />
-          <StatsCard
-            title="Deployed"
-            value={stats.deployed}
-            icon={CheckCircle2}
-            color="success"
-          />
-          <StatsCard
-            title="In Progress"
-            value={stats.deploying}
-            icon={Clock}
-            color="warning"
-          />
-          <StatsCard
-            title="Failed"
-            value={stats.failed}
-            icon={XCircle}
-            color="destructive"
-          />
-        </div>
-
-        {/* Transactions */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Github className="h-5 w-5 text-primary" />
-              Recent Deployment Transactions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="text-center py-12 text-muted-foreground">
-                Loading transactions...
-              </div>
-            ) : filteredDeployments.length === 0 ? (
-              <div className="text-center py-12 text-muted-foreground">
-                No deployments found
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {filteredDeployments.map((deployment) => (
-                  <TransactionCard key={deployment.id} deployment={deployment} />
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Network Info */}
-        <div className="mt-8 p-4 bg-muted rounded-lg border border-border">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Network</span>
-            <span className="font-mono text-foreground">Sepolia Testnet</span>
-          </div>
-          <div className="flex items-center justify-between text-sm mt-2">
-            <span className="text-muted-foreground">Chain ID</span>
-            <span className="font-mono text-foreground">11155111</span>
-          </div>
-          <div className="flex items-center justify-between text-sm mt-2">
-            <span className="text-muted-foreground">Explorer</span>
-            <a
-              href="https://sepolia.etherscan.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-primary hover:underline flex items-center gap-1"
-            >
-              sepolia.etherscan.io
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
-        </div>
-      </div>
+          </>
+        )}
+        {activeSection === 'health' && (
+          <>
+            <h1 className="text-3xl font-bold mb-6">Health</h1>
+            <div className="text-muted-foreground">Monitor the health of your deployments and services here.</div>
+          </>
+        )}
+        {activeSection === 'transaction' && (
+          <>
+            <h1 className="text-3xl font-bold mb-6">Transaction</h1>
+            <div className="text-muted-foreground">View and manage your deployment transactions here.</div>
+          </>
+        )}
+      </main>
     </div>
+  );
+};
+
+function DeploymentsTable() {
+  const [deployments, setDeployments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setLoading(true);
+    // Mock data for demo instead of external API
+    setTimeout(() => {
+      setDeployments([
+        {
+          id: 1,
+          project_name: "DeFi Dashboard",
+          status: "deployed",
+          deployment_type: "dapp",
+          blockchain_network: "sepolia",
+          gas_used: "2,456,789",
+          error_message: "",
+          created_at: new Date(Date.now() - 3600000).toISOString(),
+          updated_at: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 2,
+          project_name: "NFT Marketplace",
+          status: "deployed",
+          deployment_type: "dapp",
+          blockchain_network: "sepolia",
+          gas_used: "3,123,456",
+          error_message: "",
+          created_at: new Date(Date.now() - 7200000).toISOString(),
+          updated_at: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+          id: 3,
+          project_name: "DAO Governance",
+          status: "pending",
+          deployment_type: "dapp",
+          blockchain_network: "sepolia",
+          gas_used: "",
+          error_message: "",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        },
+        {
+          id: 4,
+          project_name: "Token Swap",
+          status: "failed",
+          deployment_type: "dapp",
+          blockchain_network: "sepolia",
+          gas_used: "",
+          error_message: "Gas estimation failed",
+          created_at: new Date(Date.now() - 1800000).toISOString(),
+          updated_at: new Date(Date.now() - 1800000).toISOString()
+        }
+      ]);
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) return <div className="p-4">Loading...</div>;
+  if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
+  if (!deployments.length) return <div className="p-4">No deployments found.</div>;
+
+  return (
+    <table className="min-w-full bg-white dark:bg-gray-800 rounded shadow">
+      <thead>
+        <tr>
+          <th className="px-4 py-2 border-b">ID</th>
+          <th className="px-4 py-2 border-b">Project Name</th>
+          <th className="px-4 py-2 border-b">Status</th>
+          <th className="px-4 py-2 border-b">Type</th>
+          <th className="px-4 py-2 border-b">Network</th>
+          <th className="px-4 py-2 border-b">Gas Used</th>
+          <th className="px-4 py-2 border-b">Error Message</th>
+          <th className="px-4 py-2 border-b">Created At</th>
+          <th className="px-4 py-2 border-b">Updated At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {deployments.map((item) => (
+          <tr key={item.id} className="border-b last:border-b-0">
+            <td className="px-4 py-2">{item.id}</td>
+            <td className="px-4 py-2">{item.project_name}</td>
+            <td className="px-4 py-2 capitalize">
+              <span className={
+                item.status === 'pending' ? 'text-yellow-500' :
+                item.status === 'failed' ? 'text-red-500' :
+                'text-green-500'
+              }>
+                {item.status}
+              </span>
+            </td>
+            <td className="px-4 py-2">{item.deployment_type}</td>
+            <td className="px-4 py-2">{item.blockchain_network}</td>
+            <td className="px-4 py-2">{item.gas_used}</td>
+            <td className="px-4 py-2 text-xs max-w-xs truncate" title={item.error_message}>{item.error_message}</td>
+            <td className="px-4 py-2 text-xs">{new Date(item.created_at).toLocaleString()}</td>
+            <td className="px-4 py-2 text-xs">{new Date(item.updated_at).toLocaleString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
